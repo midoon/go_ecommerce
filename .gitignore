@@ -1,0 +1,58 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output build
+/build/
+bin/
+out/
+*.o
+*.a
+
+# Vendor directory (if not using vendoring in repo)
+vendor/
+
+# Dependencies
+go.sum
+
+# IDE/editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Cache files
+*.cache
+*.tmp
+*.log
+
+# Go-specific directories
+*.cover
+*.prof
+*.modcache/
+coverage.out
+*.test
+
+# Docker and CI/CD files
+.dockerignore
+.env
+.env.*
+docker-compose.override.yml
+
+# Personal configuration
+*.local
+*.secret
+*.key
+*.cert
