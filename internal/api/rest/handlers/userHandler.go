@@ -5,17 +5,23 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/midoo/go_ecommerce/internal/api/rest"
+	"github.com/midoo/go_ecommerce/internal/dto"
+	"github.com/midoo/go_ecommerce/internal/service"
 )
 
 type UserHandler struct {
 	// svc UserService
+	svc service.UserService
 }
 
 func SetupUserRoutes(rh *rest.RestHandler) {
 	app := rh.App
 
 	// create an instace of user service & inject to handler
-	handler := UserHandler{}
+	svc := service.UserService{}
+	handler := UserHandler{
+		svc: svc,
+	}
 
 	// public endpoint
 	app.Post("/register", handler.Register)
@@ -37,8 +43,25 @@ func SetupUserRoutes(rh *rest.RestHandler) {
 }
 
 func (h *UserHandler) Register(ctx *fiber.Ctx) error {
+
+	user := dto.UserSignup{}
+	err := ctx.BodyParser(&user)
+
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "please provide valid input",
+		})
+	}
+
+	token, err := h.svc.SignUp(user)
+	if err != nil {
+		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "error on signup",
+		})
+	}
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "register",
+		"message": token,
 	})
 }
 
